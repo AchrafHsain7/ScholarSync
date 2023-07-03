@@ -22,7 +22,15 @@ def profile_page(request, id):
         "id": id
     })
 
-def post_page(request, id):
-    return render(request, 'scholar/post.html', {
+def view_post_page(request, id):
+    return render(request, 'scholar/view_post.html', {
         "id": id
     })
+def private_messages_page(request, receiver_id):
+    return render(request, 'scholar/private_messages.html', {
+        "receiver_id": receiver_id
+    })
+def administrator_view_page(request):
+    return render(request, 'scholar/administrator_view.html')
+def about_page(request):
+    return render(request, 'scholar/about.html')

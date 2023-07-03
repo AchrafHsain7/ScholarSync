@@ -8,6 +8,9 @@ urlpatterns = [
     path('profile/<int:id>', views.profile_page, name='profile'),
     path('login', views.login, name='login'),
     path('create_acc', views.create_acc, name='create_acc'),
-    path('post/<int:id>', views.post_page, name='post'),
-
+    path('view_post/<int:id>', views.view_post_page, name='view_post'),
+    path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
+    path('administrator_view', views.administrator_view_page, name='administrator_view'),
+    path('about', views.about_page, name='about'),
+    
 ]
