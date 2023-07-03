@@ -26,3 +26,12 @@ def post_page(request, id):
     return render(request, 'scholar/post.html', {
         "id": id
     })
+
+def create_post(request):
+    return render(request, 'scholar/create_post.html')
+
+def search_page(request):
+    return render(request, 'scholar/search_page.html')
+
+def favorite_posts(request):
+    return render(request, 'scholar/favorite_posts.html')
