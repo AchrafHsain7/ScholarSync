@@ -27,7 +27,7 @@ def post_page(request, id):
         "id": id
     })
 
-def create_page(request):
+def create_post(request):
     return render(request, 'scholar/create_post.html')
 
 def search_page(request):
