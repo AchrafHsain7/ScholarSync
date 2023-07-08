@@ -14,6 +14,8 @@ class User(models.Model):
 
     def __str__(self) -> str:
         return f"User: {self.username}, first name:{self.user_fname}, last name:{self.user_lname}"
+
+
     
 
         

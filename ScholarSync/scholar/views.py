@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
+
 from .models import *
 
 
@@ -22,8 +23,8 @@ def login_view(request):
 
         user = User.objects.filter(username=username, password=password)
 
-        if user is not None:
-            login(request, user)
+        if user.first() != None:
+            request.session["is_authenticated"] = True
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, 'scholar/login.html', {
@@ -42,7 +43,11 @@ def login_view(request):
 
 # Create your views here.
 def index(request):
-    if request.user.is_autheticated:
+    if "is_autheticated" not in request.session.keys():
+        request.session["is_autheticated"] = False
+        return HttpResponseRedirect(reverse('login'))
+    
+    if request.session["is_authenticated"] == True:
         return render(request, 'scholar/index.html')
     else:
         return HttpResponseRedirect(reverse('login'))
