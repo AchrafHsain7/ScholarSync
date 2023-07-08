@@ -23,7 +23,7 @@ class PostForm(forms.Form):
     title = forms.CharField(max_length=50, required=True)
     description = forms.CharField(max_length=200, required=False)
     content = forms.CharField(max_length=500, required=True)
-    imageURL = forms.URLField()
+    imageURL = forms.URLField(required=False) 
 
 
 
@@ -110,16 +110,25 @@ def create_acc(request):
 
 
 
-
+#to be done later
 def home_page(request, id):
     return render(request, 'scholar/home.html', {
         "id": id
     })
 
-def profile_page(request, id):
+
+
+def profile_page(request):
     return render(request, 'scholar/profile.html', {
-        "id": id
+        "username": request.user.username,
+        "fname": request.user.user_profile.fname,
+        "lname": request.user.user_profile.lname,
+        "city": request.user.user_profile.city,
+        "secret_qst":  request.user.user_profile.secret_qst
     })
+#to add: possibility to edit the profile
+
+
 
 def post_page(request, id):
     return render(request, 'scholar/view_post.html', {
@@ -129,7 +138,7 @@ def post_page(request, id):
 
 
 
-@login_required
+@login_required(login_url='login')
 def create_post(request):
 
     if request.method == "POST":
@@ -140,20 +149,17 @@ def create_post(request):
             content = form_response.cleaned_data["content"]
             imageURL = form_response.cleaned_data["imageURL"]
 
-            try:
-                post = Post.objects.create(
-                    user=request.user,
-                    image =imageURL,
-                    title=title,
-                    description=description,
-                    content=content,
-                )
-                post.save()
-            except:
-                return render(request, 'scholar/create_post.html', {
-                    "form": PostForm(request.POST),
-                    "err_message": "There was an error while trying to add your post"
-                }) 
+            #try:
+            post = Post.objects.create(
+                user=request.user,
+                image =imageURL,
+                title=title,
+                description=description,
+                content=content,
+            )
+            post.save()
+            return HttpResponseRedirect(reverse('index'))
+            
 
         else:
             return render(request, 'scholar/create_post.html', {

@@ -10,7 +10,7 @@ class User(AbstractUser):
 
     
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
     fname = models.CharField(max_length=50, blank=False)
     lname = models.CharField(max_length=50, blank=False)
     city = models.CharField(max_length=50, blank=False)
@@ -22,7 +22,7 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_posts")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile_posts")
     date = models.DateTimeField(auto_now_add=True)
     num_likes = models.PositiveIntegerField(default=0, blank=False)
     image = models.URLField()
