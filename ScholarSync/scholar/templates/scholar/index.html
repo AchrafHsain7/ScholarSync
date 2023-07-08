@@ -3,6 +3,7 @@
 {% block title %} Hello! {% endblock %}
 
 {% block body %} 
-Hello Djangooooooooooooo
+Hello Django! This is the index page and you are loged in as: {{ user.username }}
+<a href="{% url 'logout' %}">Log Out</a>
 {% endblock %} 
 

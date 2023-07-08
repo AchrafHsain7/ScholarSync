@@ -25,35 +25,31 @@ class RegistrationForm(forms.Form):
 #login user
 #to add: The secret question verification
 def login_view(request):
-
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-
-        user = User.objects.filter(username=username, password=password)
-
-        if user.first() != None:
-            request.session["is_authenticated"] = True
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, 'scholar/login.html', {
             "erorr_message": "Invalid username and/or password"
         })
-
     else:
         return render(request, 'scholar/login.html')
     
-
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('login'))
 
 
 
 # Create your views here.
 def index(request):
-    if "is_autheticated" not in request.session.keys():
-        request.session["is_autheticated"] = False
-        return HttpResponseRedirect(reverse('login'))
-    
-    if request.session["is_authenticated"] == True:
+
+    if request.user.is_authenticated:
         return render(request, 'scholar/index.html')
     else:
         return HttpResponseRedirect(reverse('login'))
@@ -72,9 +68,19 @@ def create_acc(request):
             email = form_response.cleaned_data["email"]
             city = form_response.cleaned_data["city"]
             password = form_response.cleaned_data["password"]
-            user = User(username=username, password=password, fname=fname, lname=lname, email=email, city=city)
+
+            user = User.objects.create_user(username, email,  password)
+            profile = Profile.objects.create(
+                user=user,
+                fname=fname,
+                lname=lname,
+                city=city,
+                #secret_qst='Favorite color?',
+                #answer_qst='Blue',
+            )
+
             user.save()
-            request.session["is_authenticated"] = True
+            login(request, user)
             return HttpResponseRedirect(reverse('index'))  
         else:
             return render(request, 'scholar/create_acc.html', {
