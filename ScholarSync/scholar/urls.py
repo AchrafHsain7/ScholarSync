@@ -13,7 +13,6 @@ urlpatterns = [
     path('createpost', views.create_post, name='create_post'),
     path('searchpage', views.search_page, name='search_page'),
     path('favoriteposts', views.favorite_posts, name='favorite_posts'),
-
     path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
     path('administrator_view', views.administrator_view_page, name='administrator_view'),
     path('about', views.about_page, name='about'),

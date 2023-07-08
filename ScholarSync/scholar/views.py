@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django import forms
+from django.contrib.auth.decorators import login_required
 
 
 from .models import *
@@ -17,6 +18,12 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(max_length=70, required=True)
     city = forms.CharField(max_length=50, required=True)
     password = forms.CharField(widget=forms.PasswordInput(), max_length=50)
+
+class PostForm(forms.Form): 
+    title = forms.CharField(max_length=50, required=True)
+    description = forms.CharField(max_length=200, required=False)
+    content = forms.CharField(max_length=500, required=True)
+    imageURL = forms.URLField()
 
 
 
@@ -119,8 +126,51 @@ def post_page(request, id):
         "id": id
     })
 
+
+
+
+@login_required
 def create_post(request):
-    return render(request, 'scholar/create_post.html')
+
+    if request.method == "POST":
+        form_response = PostForm(request.POST)
+        if form_response.is_valid():
+            title = form_response.cleaned_data["title"]
+            description = form_response.cleaned_data["description"]
+            content = form_response.cleaned_data["content"]
+            imageURL = form_response.cleaned_data["imageURL"]
+
+            try:
+                post = Post.objects.create(
+                    user=request.user,
+                    image =imageURL,
+                    title=title,
+                    description=description,
+                    content=content,
+                )
+                post.save()
+            except:
+                return render(request, 'scholar/create_post.html', {
+                    "form": PostForm(request.POST),
+                    "err_message": "There was an error while trying to add your post"
+                }) 
+
+        else:
+            return render(request, 'scholar/create_post.html', {
+                "form": PostForm(request.POST),
+                "err_message": "Invalid Fields found"
+            })
+
+    else:
+        return render(request, 'scholar/create_post.html', {
+            "form": PostForm()
+        })
+
+
+
+
+
+
 
 def search_page(request):
     return render(request, 'scholar/search_page.html')

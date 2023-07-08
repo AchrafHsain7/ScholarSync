@@ -3,6 +3,12 @@
 {% block title %}Create Page{% endblock %} 
 
 {% block body %} 
-<h1>Create post Page go here!</h1>
+<h1>Create post:</h1>
+{{ err_message }}
+<form action="{% url 'create_post' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Post</button>
+</form>
 
 {% endblock %}

@@ -5,5 +5,6 @@
 {% block body %} 
 Hello Django! This is the index page and you are loged in as: {{ user.username }}
 <a href="{% url 'logout' %}">Log Out</a>
+<a href="{% url 'create_post' %}">Create Post</a>
 {% endblock %} 
 

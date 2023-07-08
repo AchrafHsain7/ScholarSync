@@ -18,8 +18,21 @@ class Profile(models.Model):
     answer_qst = models.CharField(max_length=50, null=True)
    
     def __str__(self) -> str:
-        return f"User: {self.user.username}, first name:{self.fname}, last name:{self.lname}"
+        return f"{self.user.username}: {self.fname} {self.lname}"
 
+
+class Post(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_posts")
+    date = models.DateTimeField(auto_now_add=True)
+    num_likes = models.PositiveIntegerField(default=0, blank=False)
+    image = models.URLField()
+    description = models.CharField(max_length=200, blank=True)
+    title = models.CharField(max_length=50, blank=False)
+    content = models.CharField(max_length=500, blank=False)
+
+    def __str__(self):
+        return f"{self.title} posted by {self.user} on {self.date}"
+    
 
 
     
