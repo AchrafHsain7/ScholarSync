@@ -2,5 +2,11 @@
  
 {% block title %} create acc {% endblock %}
 {% block body %} 
-create acc page
+<h1>Create your account:</h1>
+<form action="{% url 'create_acc' %}", method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+{{ err_message }}
 {% endblock %} 
