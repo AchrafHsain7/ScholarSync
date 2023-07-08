@@ -3,10 +3,10 @@
 {% block title %} create acc {% endblock %}
 {% block body %} 
 <h1>Create your account:</h1>
+{{ err_message }}
 <form action="{% url 'create_acc' %}", method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Register</button>
 </form>
-{{ err_message }}
 {% endblock %} 

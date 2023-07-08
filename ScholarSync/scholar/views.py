@@ -69,19 +69,25 @@ def create_acc(request):
             city = form_response.cleaned_data["city"]
             password = form_response.cleaned_data["password"]
 
-            user = User.objects.create_user(username, email,  password)
-            profile = Profile.objects.create(
-                user=user,
-                fname=fname,
-                lname=lname,
-                city=city,
-                #secret_qst='Favorite color?',
-                #answer_qst='Blue',
-            )
+            try:
+                user = User.objects.create_user(username, email,  password)
+                profile = Profile.objects.create(
+                    user=user,
+                    fname=fname,
+                    lname=lname,
+                    city=city,
+                    #secret_qst='Favorite color?',
+                    #answer_qst='Blue',
+                )
+                user.save()
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))  
+            except:
+                return render(request, 'scholar/create_acc.html', {
+                    "form": RegistrationForm(request.POST),
+                    "err_message": "This username already exist"
+        })
 
-            user.save()
-            login(request, user)
-            return HttpResponseRedirect(reverse('index'))  
         else:
             return render(request, 'scholar/create_acc.html', {
             "form": RegistrationForm(request.POST),
