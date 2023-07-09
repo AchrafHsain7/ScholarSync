@@ -442,7 +442,7 @@ def private_messages_page(request, receiver_id):
 
 
            else:
-               return render(request, 'scholar/private_messages.html', {
+               return render(request, 'scholar/private_messages.html', {      
                 "receiver": receiver,
                 "form": MessageForm(request.POST)
             }) 
@@ -465,6 +465,15 @@ def private_messages_page(request, receiver_id):
             return HttpResponseRedirect(reverse('index'))  
 
 
+
+@login_required(login_url='login')
+def current_conversations(request):
+    q= Q(sender=request.user) | Q(receiver=request.user)
+    conversations = Message.objects.filter(q).all().order_by('-date')   
+    
+    return render(request, 'scholar/conversations.html', {
+        "conversations": conversations  
+    })  
 
 
 

@@ -1,0 +1,20 @@
+{% extends 'scholar/layout.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+<h1>Conversations: </h1>
+
+<ul>
+    {% for conversation in conversations %}
+    {% if conversation.sender != request.user %}
+    <li>
+        <a href="{% url 'private_messages' conversation.sender.id %}">{{conversation.sender}} sent to {{ conversation.receiver }} on {{ conversation.date }}</a>
+    </li>
+    {% endif %}
+    {% empty %}
+    <i>No conversations yet</i>
+    {% endfor %}
+</ul>
+
+{% endblock %}

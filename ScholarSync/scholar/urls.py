@@ -26,7 +26,8 @@ urlpatterns = [
     path('deletePost/<int:id>', views.delete_post, name='delete_post'),
     path('editProfile', views.edit_profile, name='edit_profile'),   
     path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
-    
+    path('conversations', views.current_conversations, name='conversations'),
+
     path('administrator_view', views.administrator_view_page, name='administrator_view'),
     path('about', views.about_page, name='about'),
     

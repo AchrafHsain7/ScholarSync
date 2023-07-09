@@ -10,7 +10,16 @@
 <ul>
     {% for message in messages %}
     <li>
+        {% if message.sender.id != request.user.id %}
+        <a href="{% url 'friend_profile' message.sender.id %}">
+            <h3>{{message.sender.username}}</h3>
+        </a>
+        {% else %}
         <h3>{{message.sender.username}}</h3>
+        {% endif %}
+        <div>
+            <img src="{{message.sender.user_profile.profile_img}}" alt="Loading" width="50" height="50">
+        </div>
         <div>{{message.content}}</div>
         <div><i>{{message.date}}</i></div>
     </li>
