@@ -25,6 +25,9 @@ class PostForm(forms.Form):
     content = forms.CharField(max_length=500, required=True, widget=forms.Textarea(attrs={'rows':20, 'cols':100})) 
     imageURL = forms.URLField(required=False) 
 
+class CommentForm(forms.Form):
+    content = forms.CharField(max_length=200, required=True, widget=forms.Textarea(attrs={'rows':10, 'cols': 50}))
+
 
 
 
@@ -135,9 +138,12 @@ def profile_page(request):
 def post_page(request, id):
     post = Post.objects.filter(id=id).first()
     likes = post.likes.all().count()
+    comments = Comment.objects.filter(post=post).all() 
     return render(request, 'scholar/view_post.html', { 
         "post": post, 
-        "num_likes":  likes 
+        "num_likes":  likes,
+        'comment_form': CommentForm(),
+        "comments": comments,
     })
 
 
@@ -253,6 +259,41 @@ def remove_friend(request, id):
         if friend is not None:
             request.user.user_profile.friends.remove(friend)
             return HttpResponseRedirect(reverse('friends'))
+        else:
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        return HttpResponseRedirect(reverse('index'))
+
+
+@login_required(login_url='login')
+def add_comment(request, id):
+    if request.method == 'POST':  
+        post = Post.objects.filter(id=id).first()
+        if post is not None:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = Comment.objects.create(
+                    post=post ,
+                    user=request.user,  
+                    content=comment_form.cleaned_data['content']
+                    )    
+                comment.save()
+                return HttpResponseRedirect(reverse('post', args=(id, ))) 
+            else:
+                return HttpResponseRedirect(reverse('post', args=(id, ))) 
+        else:
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        return HttpResponseRedirect(reverse('index'))  
+#WTF is this 
+
+@login_required(login_url='login')
+def delete_comment(request, comment_id, post_id):
+    if request.method == 'POST':
+        comment = Comment.objects.filter(id=comment_id).first() 
+        if comment is not None:
+            comment.delete()
+            return HttpResponseRedirect(reverse('post', args=(post_id, )))   
         else:
             return HttpResponseRedirect(reverse('index'))
     else:

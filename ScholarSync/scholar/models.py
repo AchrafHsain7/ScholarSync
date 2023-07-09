@@ -35,6 +35,13 @@ class Post(models.Model):
         return f"{self.title} posted by {self.user} on {self.date}"
     
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='post_comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_comments', on_delete=models.CASCADE)
+    content = models.CharField(max_length=200, blank=False)
+    date = models.DateTimeField(auto_now_add=True)
+    
+
     
 
 
