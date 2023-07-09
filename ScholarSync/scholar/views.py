@@ -55,11 +55,11 @@ def logout_view(request):
 
 # Create your views here.
 def index(request):
-
     if request.user.is_authenticated:
+        posts = Post.objects.all()
         return render(request, 'scholar/index.html', {
-            "posts": Post.objects.all()
-        })
+            "posts": posts,
+        })   
     else:
         return HttpResponseRedirect(reverse('login'))
     
@@ -79,7 +79,7 @@ def create_acc(request):
             password = form_response.cleaned_data["password"]
 
             try:
-                user = User.objects.create_user(username, email,  password)
+                user = User.objects.create_user(username, email,  password) 
                 profile = Profile.objects.create(
                     user=user,
                     fname=fname,
@@ -119,7 +119,7 @@ def home_page(request, id):
     })
 
 
-
+@login_required(login_url='login')
 def profile_page(request):
     return render(request, 'scholar/profile.html', {
         "username": request.user.username,
@@ -131,10 +131,13 @@ def profile_page(request):
 #to add: possibility to edit the profile
 
 
-
+@login_required(login_url='login')
 def post_page(request, id):
-    return render(request, 'scholar/view_post.html', {
-        "id": id
+    post = Post.objects.filter(id=id).first()
+    likes = post.likes.all().count()
+    return render(request, 'scholar/view_post.html', { 
+        "post": post, 
+        "num_likes":  likes 
     })
 
 
@@ -142,7 +145,6 @@ def post_page(request, id):
 
 @login_required(login_url='login')
 def create_post(request):
-
     if request.method == "POST":
         form_response = PostForm(request.POST)
         if form_response.is_valid():
@@ -173,11 +175,29 @@ def create_post(request):
         return render(request, 'scholar/create_post.html', {
             "form": PostForm()
         })
+    
+@login_required(login_url='login')
+def like_post(request, id):
+    if request.method == 'POST':
+        post = Post.objects.filter(id=id).first()
+        if post is not None:
+            post.likes.add(request.user)
+            return HttpResponseRedirect(reverse('post', args=(id, ))) 
+        else:
+            return HttpResponseRedirect(reverse('index'))
+    else: 
+        return HttpResponseRedirect(reverse('index'))
 
 
 
 
 
+
+@login_required(login_url='login')
+def view_friends(request):
+    return render(request, 'view_friends.html', {
+        
+    })
 
 
 def search_page(request):

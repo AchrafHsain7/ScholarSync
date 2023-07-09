@@ -9,6 +9,13 @@
         <link href="{% static 'scholar/style.css' %}" rel="stylesheet">
     </head>
     <body>
+        <div>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'create_post' %}">Create Post</a>
+            <a href="{% url 'logout' %}">Log Out</a>
+            <a href="{% url 'friends' %}">Friends</a>
+        </div>
         {% block body %} 
         {% endblock %}
     </body>

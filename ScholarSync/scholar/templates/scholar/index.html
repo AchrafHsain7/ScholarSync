@@ -9,21 +9,13 @@ Hello Django! This is the index page and you are loged in as: {{ user.username }
     {% for post in posts %}
 
         <li>
-            <form>
+            <form action="{% url 'post' post.id %}">
                 <button>
                     <h1>{{post.title}}</h1>
-                    <img src={{post.image}} alt="Loading image" height="500">
+                    <img src={{post.image}} alt="Loading image">
                     <div>{{post.content}}</div>
-                    <div>{{post.num_likes}}</div>
                     <div>{{post.date}}</div>
                 </button>
-            </form>
-            <form>
-                <button>Like</button>
-            </form>
-            <form>
-                <input type="text" name="comment">
-                <button type="submit">Comment</button>
             </form>
         </li>
 
@@ -34,8 +26,5 @@ Hello Django! This is the index page and you are loged in as: {{ user.username }
 </ul>
 
 
-<a href="{% url 'logout' %}">Log Out</a>
-<a href="{% url 'create_post' %}">Create Post</a>
-<a href="{% url 'profile' %}">Profile</a>
 {% endblock %} 
 

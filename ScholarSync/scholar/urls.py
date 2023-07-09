@@ -16,5 +16,7 @@ urlpatterns = [
     path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
     path('administrator_view', views.administrator_view_page, name='administrator_view'),
     path('about', views.about_page, name='about'),
+    path('like_post/<int:id>', views.like_post, name="like_post"),
+    path('friends', views.view_friends, name='friends')
     
 ]

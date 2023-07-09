@@ -5,7 +5,29 @@
 
 {% block body %} 
 
-<h1>view post page</h1>
-visited by user with id: {{ id }}
+<h1>{{ post.title }}</h1>
+<img src="{{post.image}}" alt="Loading image">
+<p>{{ post.content }}</p>
+<div>
+    <small>{{post.description}}</small>
+</div>
+<div>
+    Likes: <b>{{num_likes}}</b>
+</div>
+<div>
+    Published: <i>{{post.date}}</i>
+</div>
+<p>Posted by: {{post.user.username}}</p>
+
+<form action="{% url 'like_post' post.id %}" method="post">
+    {% csrf_token %}
+    <button>Like</button>
+</form>
+
+<form>
+    <input type="text" name="comment">
+    <button type="submit">Comment</button>
+</form>
+
 
 {% endblock %}
