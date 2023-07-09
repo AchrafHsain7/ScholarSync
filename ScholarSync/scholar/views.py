@@ -21,8 +21,8 @@ class RegistrationForm(forms.Form):
 
 class PostForm(forms.Form): 
     title = forms.CharField(max_length=50, required=True)
-    description = forms.CharField(max_length=200, required=False)
-    content = forms.CharField(max_length=500, required=True)
+    description = forms.CharField(max_length=200, required=False, widget=forms.Textarea(attrs={'rows':5, 'cols':50})) 
+    content = forms.CharField(max_length=500, required=True, widget=forms.Textarea(attrs={'rows':20, 'cols':100})) 
     imageURL = forms.URLField(required=False) 
 
 
