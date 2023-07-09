@@ -5,31 +5,32 @@
 
 {% block body %} 
 
-<h1>Profile page</h1>
-<img src="{{user_page.user_profile.profile_img}}" alt="Loading Image" width="100", height="100">  
-<p>Username: {{user_page.username}}</p>
-<p>First Name: {{user_page.user_profile.fname}}</p>
-<p>Last Name: {{user_page.user_profile.lname}}</p>
-<p>City: {{user_page.user_profile.city}}</p>
+    <h1>Profile page</h1>
+    <img src="{{user_page.user_profile.profile_img}}" alt="Loading Image" width="100", height="100">  
+    <p>Username: {{user_page.username}}</p>
+    <p>First Name: {{user_page.user_profile.fname}}</p>
+    <p>Last Name: {{user_page.user_profile.lname}}</p>
+    <p>City: {{user_page.user_profile.city}}</p>
 
-{% if username == request.user.username %}
-<form action="{% url 'edit_profile' %}">
-    {% csrf_token %}
-    <button type="submit">Edit Profile</button>
-</form>
-{% else %}
-    {% if request.user|is_friend_post:user_page %}
-    <form action="{% url 'remove_friend' user_page.id %}" method="post">
+    {% if username == request.user.username %}
+    <form action="{% url 'edit_profile' %}">
         {% csrf_token %}
-        <button>Unfollow</button>
+        <button type="submit">Edit Profile</button>
     </form>
     {% else %}
-    <form action="{% url 'add_friend' user_page.id %}" method="post">
-        {% csrf_token %}
-        <button>Follow</button>
-    </form>
-    {% endif %}
+        {% if request.user|is_friend_post:user_page %}
+        <form action="{% url 'remove_friend' user_page.id %}" method="post">
+            {% csrf_token %}
+            <button>Unfollow</button>
+        </form>
+        {% else %}
+        <form action="{% url 'add_friend' user_page.id %}" method="post">
+            {% csrf_token %}
+            <button>Follow</button>
+        </form>
+        {% endif %}
+        <a href="{% url 'private_messages' user_page.id %}">Private Chat</a>
 
-{% endif %}
+    {% endif %}
 
 {% endblock %}

@@ -48,6 +48,16 @@ class Comment(models.Model):
         return f"posted by {self.user} on {self.date}"
     
 
+class Message(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    content = models.CharField(max_length=500, blank=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message {self.sender}:{self.receiver} sent on {self.date}"
+    
+
     
 
 

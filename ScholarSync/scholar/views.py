@@ -34,6 +34,9 @@ class CommentForm(forms.Form):
 class SearchPostForm(forms.Form):
     search_query = forms.CharField(max_length=50, required=True) 
 
+class MessageForm(forms.Form):
+    message = forms.CharField(max_length=500, required=True, widget=forms.Textarea(attrs={'rows':5, 'cols': 100}))
+
 
 
 
@@ -414,11 +417,56 @@ def edit_profile(request):
 
 
 
-
+@login_required(login_url='login')
 def private_messages_page(request, receiver_id):
-    return render(request, 'scholar/private_messages.html', {
-        "receiver_id": receiver_id
-    })
+
+    if request.method == 'POST':
+        receiver = User.objects.filter(id=receiver_id).first()
+        if receiver is not None:
+           message_form = MessageForm(request.POST)
+           if message_form.is_valid():
+               try:
+                    message = Message.objects.create(
+                        sender = request.user,
+                        receiver= receiver,
+                        content = message_form.cleaned_data['message']
+                    )
+                    message.save()
+                    return HttpResponseRedirect(reverse('private_messages', args=(receiver_id, )))
+               except:
+                   return render(request, 'scholar/private_messages.html', {
+                "receiver": receiver,
+                "form": MessageForm(request.POST),
+                "err_message": "Error while trying to process the message"
+            }) 
+
+
+           else:
+               return render(request, 'scholar/private_messages.html', {
+                "receiver": receiver,
+                "form": MessageForm(request.POST)
+            }) 
+
+        else:
+            return HttpResponseRedirect(reverse('index'))
+
+
+    else:
+        receiver = User.objects.filter(id=receiver_id).first()
+        message_query = Q(receiver=receiver, sender=request.user) | Q(receiver=request.user, sender=receiver)
+        messages = Message.objects.filter(message_query).all().order_by('date') 
+        if receiver is not None:
+            return render(request, 'scholar/private_messages.html', {
+                "receiver": receiver,
+                "form": MessageForm(),
+                "messages": messages
+            }) 
+        else:
+            return HttpResponseRedirect(reverse('index'))  
+
+
+
+
 
 def administrator_view_page(request):
     return render(request, 'scholar/administrator_view.html')

@@ -5,7 +5,29 @@
 
 {% block body %} 
 
-<h1>private messages page</h1>
-visited by user with receiver_id: {{ receiver_id }}
+<h1>private messages with {{receiver.username}}</h1>
+
+<ul>
+    {% for message in messages %}
+    <li>
+        <h3>{{message.sender.username}}</h3>
+        <div>{{message.content}}</div>
+        <div><i>{{message.date}}</i></div>
+    </li>
+    {% empty %}
+    <i>No message sent yet</i>
+    {% endfor %}
+</ul>
+
+
+<p>
+    <i>{{err_message}}</i>
+</p>
+<form action="{% url 'private_messages' receiver.id %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Send</button>
+</form>
+
 
 {% endblock %}
