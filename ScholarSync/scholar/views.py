@@ -57,7 +57,9 @@ def logout_view(request):
 def index(request):
 
     if request.user.is_authenticated:
-        return render(request, 'scholar/index.html')
+        return render(request, 'scholar/index.html', {
+            "posts": Post.objects.all()
+        })
     else:
         return HttpResponseRedirect(reverse('login'))
     

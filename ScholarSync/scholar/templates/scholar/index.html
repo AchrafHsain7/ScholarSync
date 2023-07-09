@@ -4,6 +4,36 @@
 
 {% block body %} 
 Hello Django! This is the index page and you are loged in as: {{ user.username }}
+
+<ul>
+    {% for post in posts %}
+
+        <li>
+            <form>
+                <button>
+                    <h1>{{post.title}}</h1>
+                    <img src={{post.image}} alt="Loading image" height="500">
+                    <div>{{post.content}}</div>
+                    <div>{{post.num_likes}}</div>
+                    <div>{{post.date}}</div>
+                </button>
+            </form>
+            <form>
+                <button>Like</button>
+            </form>
+            <form>
+                <input type="text" name="comment">
+                <button type="submit">Comment</button>
+            </form>
+        </li>
+
+    {% empty %}
+    <h1>No Posts Currently available!</h1>
+
+    {% endfor %}
+</ul>
+
+
 <a href="{% url 'logout' %}">Log Out</a>
 <a href="{% url 'create_post' %}">Create Post</a>
 <a href="{% url 'profile' %}">Profile</a>
