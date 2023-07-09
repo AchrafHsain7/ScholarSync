@@ -187,7 +187,7 @@ def like_post(request, id):
             return HttpResponseRedirect(reverse('index'))
     else: 
         return HttpResponseRedirect(reverse('index'))
-
+  
 
 
 
@@ -195,9 +195,49 @@ def like_post(request, id):
 
 @login_required(login_url='login')
 def view_friends(request):
-    return render(request, 'view_friends.html', {
-        
-    })
+    friends = request.user.user_profile.friends.all()
+    return render(request, 'scholar/view_friends.html', {
+        "friends": friends
+    }) 
+
+@login_required(login_url='login')
+def friend_profile(request, id):
+    friend = User.objects.filter(id=id).first()
+    if friend is not None:
+        return render(request, 'scholar/profile.html', {
+            "username": friend.username,
+            "fname": friend.user_profile.fname,
+            "lname": friend.user_profile.lname,
+            "city": friend.user_profile.city,
+            "secret_qst":  friend.user_profile.secret_qst
+        })
+    else:  
+        return HttpResponseRedirect(reverse('index'))
+    
+
+
+@login_required(login_url='login')
+def search_friends(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        if username != '':
+            users_found = User.objects.filter(username__contains=username)
+            friends = request.user.user_profile.friends.all()
+            return render(request, 'scholar/view_friends.html', {
+                "friends": friends,
+                "search_data": users_found
+            })
+        else:
+            return HttpResponseRedirect(reverse('friends')) 
+
+    else:
+        return HttpResponseRedirect(reverse('index'))
+
+
+
+
+
+
 
 
 def search_page(request):

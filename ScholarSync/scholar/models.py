@@ -14,8 +14,8 @@ class Profile(models.Model):
     fname = models.CharField(max_length=50, blank=False)
     lname = models.CharField(max_length=50, blank=False)
     city = models.CharField(max_length=50, blank=False)
-    secret_qst = models.CharField(max_length=100, null=True)
-    answer_qst = models.CharField(max_length=50, null=True)
+    secret_qst = models.CharField(max_length=100, null=True, blank=True)
+    answer_qst = models.CharField(max_length=50, null=True, blank=True)
     friends = models.ManyToManyField(User, related_name='user_friends')
    
     def __str__(self) -> str:

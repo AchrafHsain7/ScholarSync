@@ -17,6 +17,8 @@ urlpatterns = [
     path('administrator_view', views.administrator_view_page, name='administrator_view'),
     path('about', views.about_page, name='about'),
     path('like_post/<int:id>', views.like_post, name="like_post"),
-    path('friends', views.view_friends, name='friends')
+    path('friends', views.view_friends, name='friends'),
+    path('friendProfile/<int:id>', views.friend_profile, name='friend_profile'),
+    path('searchFriends', views.search_friends, name='search_friends'),
     
 ]

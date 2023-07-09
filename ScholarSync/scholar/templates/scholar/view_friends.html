@@ -3,6 +3,22 @@
 {% block title %}Friends{% endblock %}
 
 {% block body %}
-
-
+<h1>Friends:</h1>
+<form action="{% url 'search_friends'%}" method="post">
+    {% csrf_token %}
+    <input type="text" placeholder="Username:" autofocus autocomplete="off" name="username">
+    <button type="submit">Search</button>
+</form>
+<ul>
+    {% for user in search_data %}
+    <li><a href="{% url 'friend_profile' user.id %}">{{user.username}}</a></li>
+    {% endfor %}
+</ul>
+<ul>
+    {% for friend in friends %}
+    <li><a href="{% url 'friend_profile' friend.id %}">{{friend.username}}</a></li>
+    {% empty %}
+    Sorry you dont have friends :/
+    {% endfor %}
+</ul>
 {% endblock %}
