@@ -20,8 +20,9 @@ urlpatterns = [
     path('addComment/<int:id>', views.add_comment, name='add_comment'),
     path('deleteComment/<int:comment_id>/<int:post_id>', views.delete_comment, name='delete_comment'),
     path('searchPost', views.search_post, name='search_post'),
-    
     path('favoriteposts', views.favorite_posts, name='favorite_posts'),
+    path('addFavoritePost/<int:id>', views.add_favorite, name='add_favorite_posts'),
+
     path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
     path('administrator_view', views.administrator_view_page, name='administrator_view'),
     path('about', views.about_page, name='about'),

@@ -17,6 +17,7 @@ class Profile(models.Model):
     secret_qst = models.CharField(max_length=100, null=True, blank=True)
     answer_qst = models.CharField(max_length=50, null=True, blank=True)
     friends = models.ManyToManyField(User, related_name='user_friends')
+    
    
     def __str__(self) -> str:
         return f"{self.user.username}: {self.fname} {self.lname}"
@@ -30,6 +31,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50, blank=False)
     content = models.CharField(max_length=500, blank=False)
     likes = models.ManyToManyField(User, related_name='user_liked_posts', null=True)
+    favorite_of_users = models.ManyToManyField(User, related_name='favorite_posts')
 
     def __str__(self):
         return f"{self.title} posted by {self.user} on {self.date}"
@@ -40,6 +42,9 @@ class Comment(models.Model):
     user = models.ForeignKey(User, related_name='user_comments', on_delete=models.CASCADE)
     content = models.CharField(max_length=200, blank=False)
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"posted by {self.user} on {self.date}"
     
 
     

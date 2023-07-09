@@ -26,6 +26,11 @@
         <button>Like</button>
     </form>
 
+    <form action="{% url 'add_favorite_posts' post.id %}" method="post">
+        {% csrf_token %}
+        <button>Add to Favorites</button>
+    </form>
+
     <form action="{% url 'add_comment' post.id %}" method="post">
         {% csrf_token %}
         {{ comment_form }}

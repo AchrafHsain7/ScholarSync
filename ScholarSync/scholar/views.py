@@ -307,7 +307,7 @@ def delete_comment(request, comment_id, post_id):
 
 
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def search_post(request):
 
     if request.method == 'POST':
@@ -335,15 +335,32 @@ def search_post(request):
 
 
 
-
-
-
-
-
-
-
+@login_required(login_url='login')
 def favorite_posts(request):
-    return render(request, 'scholar/favorite_posts.html')
+    favorites = request.user.favorite_posts.all()
+    return render(request, 'scholar/favorite_posts.html', {
+        "posts": favorites
+    })
+  
+@login_required(login_url='login')
+def add_favorite(request, id):
+    if request.method == 'POST':
+        post = Post.objects.filter(id=id).first()
+        if post is not None:
+            request.user.favorite_posts.add(post)
+            return HttpResponseRedirect(reverse('favorite_posts')) 
+        else:
+            return HttpResponseRedirect(reverse('index')) 
+       
+    else:
+        return HttpResponseRedirect(reverse('index'))
+
+
+
+
+
+
+
 
 def private_messages_page(request, receiver_id):
     return render(request, 'scholar/private_messages.html', {
