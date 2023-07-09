@@ -232,6 +232,18 @@ def search_friends(request):
 
     else:
         return HttpResponseRedirect(reverse('index'))
+    
+@login_required(login_url='login')
+def add_friend(request, id):
+    if request.method == 'POST':
+        friend = User.objects.filter(id=id).first()
+        if friend is not None:
+            request.user.user_profile.friends.add(friend) 
+            return HttpResponseRedirect(reverse('friends'))  
+        else:
+            return HttpResponseRedirect(reverse(index))
+    else:
+        return HttpResponseRedirect(reverse(index))
 
 
 

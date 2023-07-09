@@ -20,5 +20,6 @@ urlpatterns = [
     path('friends', views.view_friends, name='friends'),
     path('friendProfile/<int:id>', views.friend_profile, name='friend_profile'),
     path('searchFriends', views.search_friends, name='search_friends'),
+    path('add_friend/<int:id>', views.add_friend, name='add_friend'),
     
 ]
