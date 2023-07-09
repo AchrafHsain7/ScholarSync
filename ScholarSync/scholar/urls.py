@@ -11,11 +11,6 @@ urlpatterns = [
     path('create_acc', views.create_acc, name='create_acc'),
     path('post/<int:id>', views.post_page, name='post'),
     path('createpost', views.create_post, name='create_post'),
-    path('searchpage', views.search_page, name='search_page'),
-    path('favoriteposts', views.favorite_posts, name='favorite_posts'),
-    path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
-    path('administrator_view', views.administrator_view_page, name='administrator_view'),
-    path('about', views.about_page, name='about'),
     path('like_post/<int:id>', views.like_post, name="like_post"),
     path('friends', views.view_friends, name='friends'),
     path('friendProfile/<int:id>', views.friend_profile, name='friend_profile'),
@@ -24,5 +19,11 @@ urlpatterns = [
     path('remove_friend/<int:id>', views.remove_friend, name='remove_friend'),
     path('addComment/<int:id>', views.add_comment, name='add_comment'),
     path('deleteComment/<int:comment_id>/<int:post_id>', views.delete_comment, name='delete_comment'),
+    path('searchPost', views.search_post, name='search_post'),
+    
+    path('favoriteposts', views.favorite_posts, name='favorite_posts'),
+    path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
+    path('administrator_view', views.administrator_view_page, name='administrator_view'),
+    path('about', views.about_page, name='about'),
     
 ]

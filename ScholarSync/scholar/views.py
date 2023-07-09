@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q 
 
 
 from .models import *
@@ -27,6 +28,9 @@ class PostForm(forms.Form):
 
 class CommentForm(forms.Form):
     content = forms.CharField(max_length=200, required=True, widget=forms.Textarea(attrs={'rows':10, 'cols': 50}))
+
+class SearchPostForm(forms.Form):
+    search_query = forms.CharField(max_length=50, required=True)
 
 
 
@@ -303,9 +307,40 @@ def delete_comment(request, comment_id, post_id):
 
 
 
+@login_required(login_url='login')
+def search_post(request):
 
-def search_page(request):
-    return render(request, 'scholar/search_page.html')
+    if request.method == 'POST':
+        search_form = SearchPostForm(request.POST)
+        if search_form.is_valid():
+            query = search_form.cleaned_data['search_query']
+            search_query = Q(title__contains=query) | Q(description__contains=query) | Q(content__contains=query) | Q(user__username__contains=query)
+            posts = Post.objects.filter(search_query).all()
+            return render(request, 'scholar/search_post.html', {
+                'search_form': SearchPostForm(request.POST),     
+                'search_result': posts
+            })
+        else:
+            return render(request, 'scholar/search_post.html', {
+            'search_form': SearchPostForm(request.POST),
+        })
+
+
+    else:
+        return render(request, 'scholar/search_post.html', {
+            'search_form': SearchPostForm(),
+        })
+
+
+
+
+
+
+
+
+
+
+
 
 def favorite_posts(request):
     return render(request, 'scholar/favorite_posts.html')

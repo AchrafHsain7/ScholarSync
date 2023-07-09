@@ -13,7 +13,9 @@ Hello Django! This is the index page and you are loged in as: {{ user.username }
             <form action="{% url 'post' post.id %}">
                 <button>
                     <h1>{{post.title}}</h1>
+                    {% if post.image != '' %}
                     <img src={{post.image}} alt="Loading image">
+                    {% endif %}
                     <div>{{post.content}}</div>
                     <div>{{post.date}}</div>
                 </button>
