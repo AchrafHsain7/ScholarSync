@@ -56,7 +56,7 @@ def logout_view(request):
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        posts = Post.objects.all()
+        posts = Post.objects.all()      
         return render(request, 'scholar/index.html', {
             "posts": posts,
         })   
@@ -246,6 +246,17 @@ def add_friend(request, id):
         return HttpResponseRedirect(reverse(index))
 
 
+@login_required(login_url='login')
+def remove_friend(request, id):
+    if request.method == 'POST':
+        friend = User.objects.filter(id=id).first()
+        if friend is not None:
+            request.user.user_profile.friends.remove(friend)
+            return HttpResponseRedirect(reverse('friends'))
+        else:
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        return HttpResponseRedirect(reverse('index'))
 
 
 

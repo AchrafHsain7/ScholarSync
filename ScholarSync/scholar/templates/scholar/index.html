@@ -1,4 +1,5 @@
 {% extends "scholar/layout.html" %} 
+{% load custom_filters %}
 
 {% block title %} Hello! {% endblock %}
 
@@ -7,7 +8,7 @@ Hello Django! This is the index page and you are loged in as: {{ user.username }
 
 <ul>
     {% for post in posts %}
-
+        {% if request.user|is_friend_post:post.user %}
         <li>
             <form action="{% url 'post' post.id %}">
                 <button>
@@ -18,6 +19,7 @@ Hello Django! This is the index page and you are loged in as: {{ user.username }
                 </button>
             </form>
         </li>
+        {% endif %}
 
     {% empty %}
     <h1>No Posts Currently available!</h1>

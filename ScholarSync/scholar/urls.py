@@ -21,5 +21,6 @@ urlpatterns = [
     path('friendProfile/<int:id>', views.friend_profile, name='friend_profile'),
     path('searchFriends', views.search_friends, name='search_friends'),
     path('add_friend/<int:id>', views.add_friend, name='add_friend'),
+    path('remove_friend/<int:id>', views.remove_friend, name='remove_friend'),
     
 ]

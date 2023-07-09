@@ -25,6 +25,10 @@
 <ul>
     {% for friend in friends %}
     <li><a href="{% url 'friend_profile' friend.id %}">{{friend.username}}</a></li>
+    <form action="{% url 'remove_friend' friend.id %}" method="post">
+        {% csrf_token %}
+        <button>Unfollow</button>
+    </form>
     {% empty %}
     Sorry you dont have friends :/
     {% endfor %}

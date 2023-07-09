@@ -23,7 +23,7 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile_posts")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_posts")
     date = models.DateTimeField(auto_now_add=True)
     image = models.URLField()
     description = models.CharField(max_length=200, blank=True)
