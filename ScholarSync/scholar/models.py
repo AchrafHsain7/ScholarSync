@@ -17,6 +17,7 @@ class Profile(models.Model):
     secret_qst = models.CharField(max_length=100, null=True, blank=True)
     answer_qst = models.CharField(max_length=50, null=True, blank=True)
     friends = models.ManyToManyField(User, related_name='user_friends')
+    profile_img = models.URLField(default='https://img.freepik.com/free-icon/user_318-414374.jpg?size=626&ext=jpg&ga=GA1.2.1896589579.1688924061&semt=ais') 
     
    
     def __str__(self) -> str:
@@ -29,7 +30,7 @@ class Post(models.Model):
     image = models.URLField()
     description = models.CharField(max_length=200, blank=True)
     title = models.CharField(max_length=50, blank=False)
-    content = models.CharField(max_length=500, blank=False)
+    content = models.CharField(max_length=2000, blank=False)
     likes = models.ManyToManyField(User, related_name='user_liked_posts', null=True)
     favorite_of_users = models.ManyToManyField(User, related_name='favorite_posts')
 

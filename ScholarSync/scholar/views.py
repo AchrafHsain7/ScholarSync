@@ -5,6 +5,7 @@ from django.urls import reverse
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q 
+from django.contrib.auth.hashers import check_password
 
 
 from .models import *
@@ -19,18 +20,22 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(max_length=70, required=True)
     city = forms.CharField(max_length=50, required=True)
     password = forms.CharField(widget=forms.PasswordInput(), max_length=50)
+    image = forms.URLField(required=False)
 
 class PostForm(forms.Form): 
     title = forms.CharField(max_length=50, required=True)
     description = forms.CharField(max_length=200, required=False, widget=forms.Textarea(attrs={'rows':5, 'cols':50})) 
-    content = forms.CharField(max_length=500, required=True, widget=forms.Textarea(attrs={'rows':20, 'cols':100})) 
+    content = forms.CharField(max_length=2000, required=True, widget=forms.Textarea(attrs={'rows':20, 'cols':100})) 
     imageURL = forms.URLField(required=False) 
 
 class CommentForm(forms.Form):
     content = forms.CharField(max_length=200, required=True, widget=forms.Textarea(attrs={'rows':10, 'cols': 50}))
 
 class SearchPostForm(forms.Form):
-    search_query = forms.CharField(max_length=50, required=True)
+    search_query = forms.CharField(max_length=50, required=True) 
+
+
+
 
 
 
@@ -129,11 +134,7 @@ def home_page(request, id):
 @login_required(login_url='login')
 def profile_page(request):
     return render(request, 'scholar/profile.html', {
-        "username": request.user.username,
-        "fname": request.user.user_profile.fname,
-        "lname": request.user.user_profile.lname,
-        "city": request.user.user_profile.city,
-        "secret_qst":  request.user.user_profile.secret_qst
+        "user_page": request.user,  
     })
 #to add: possibility to edit the profile
 
@@ -215,11 +216,7 @@ def friend_profile(request, id):
     friend = User.objects.filter(id=id).first()
     if friend is not None:
         return render(request, 'scholar/profile.html', {
-            "username": friend.username,
-            "fname": friend.user_profile.fname,
-            "lname": friend.user_profile.lname,
-            "city": friend.user_profile.city,
-            "secret_qst":  friend.user_profile.secret_qst
+            "user_page": friend,
         })
     else:  
         return HttpResponseRedirect(reverse('index'))
@@ -356,6 +353,62 @@ def add_favorite(request, id):
         return HttpResponseRedirect(reverse('index'))
 
 
+@login_required(login_url='login')
+def my_posts(request):
+    posts = request.user.user_posts.all()
+    return render(request, 'scholar/my_posts.html', {
+        'posts': posts
+    })
+
+@login_required(login_url='login')
+def delete_post(request, id):
+    if request.method == 'POST':
+        post = Post.objects.filter(id=id).first()
+        if post is not None:
+            post.delete()
+            return HttpResponseRedirect(reverse('my_posts'))
+        else:
+            return HttpResponseRedirect(reverse('my_posts'))
+    else:
+        return HttpResponseRedirect(reverse('index'))
+
+
+@login_required(login_url='login')
+def edit_profile(request):
+
+    if request.method == 'POST':
+        edit_form = RegistrationForm(request.POST)
+        if edit_form.is_valid():
+            try:
+                user = request.user
+                if check_password(edit_form.cleaned_data['password'], user.password):
+                    user.username = edit_form.cleaned_data['username']
+                    user.user_profile.fname = edit_form.cleaned_data['fname']
+                    user.user_profile.lname = edit_form.cleaned_data['lname']
+                    user.user_profile.email = edit_form.cleaned_data['email']
+                    user.user_profile.city = edit_form.cleaned_data['city']
+                    user.save()
+                    return HttpResponseRedirect(reverse('profile'))  
+                else:
+                    return render(request, 'scholar/edit_profile.html', {
+                        "form": RegistrationForm(request.POST),  
+                        "err_message": "Wrong Password" 
+                    })
+            except:
+                return render(request, 'scholar/edit_profile.html', {
+            "form": RegistrationForm(request.POST),  
+            "err_message": "This username is already taken" 
+        })
+
+        else:
+            return render(request, 'scholar/edit_profile.html', {
+            "form": RegistrationForm(request.POST),   
+        })
+
+    else:
+        return render(request, 'scholar/edit_profile.html', {
+            "form": RegistrationForm(),   
+        })
 
 
 

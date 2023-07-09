@@ -22,6 +22,9 @@ urlpatterns = [
     path('searchPost', views.search_post, name='search_post'),
     path('favoriteposts', views.favorite_posts, name='favorite_posts'),
     path('addFavoritePost/<int:id>', views.add_favorite, name='add_favorite_posts'),
+    path('myPosts', views.my_posts, name='my_posts'),
+    path('deletePost/<int:id>', views.delete_post, name='delete_post'),
+    path('editProfile', views.edit_profile, name='edit_profile'),   
 
     path('private_messages/<int:receiver_id>', views.private_messages_page, name='private_messages'),
     path('administrator_view', views.administrator_view_page, name='administrator_view'),

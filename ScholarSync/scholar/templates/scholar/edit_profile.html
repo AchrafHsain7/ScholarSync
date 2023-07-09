@@ -1,0 +1,19 @@
+{% extends 'scholar/layout.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+
+{% block body %}
+<h1>Edit Profile:</h1>
+
+<h2>
+    {{ err_message }}
+</h2>
+
+<form action="{% url 'edit_profile' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Confirm changes</button>
+</form>
+
+{% endblock %}

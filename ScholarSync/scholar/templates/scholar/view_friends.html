@@ -13,22 +13,12 @@
     {% for user in search_data %}
         {% if user != request.user %}
             <li><a href="{% url 'friend_profile' user.id %}">{{user.username}}</a></li>
-            {% if  user not in friends %}
-            <form action="{% url 'add_friend' user.id %}" method="post">
-                {% csrf_token %}
-                <button>Follow</button>
-            </form>
-            {% endif %}
         {% endif %}
     {% endfor %}
 </ul>
 <ul>
     {% for friend in friends %}
     <li><a href="{% url 'friend_profile' friend.id %}">{{friend.username}}</a></li>
-    <form action="{% url 'remove_friend' friend.id %}" method="post">
-        {% csrf_token %}
-        <button>Unfollow</button>
-    </form>
     {% empty %}
     Sorry you dont have friends :/
     {% endfor %}
