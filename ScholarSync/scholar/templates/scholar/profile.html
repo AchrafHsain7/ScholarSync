@@ -12,7 +12,7 @@
     <p>Last Name: {{user_page.user_profile.lname}}</p>
     <p>City: {{user_page.user_profile.city}}</p>
 
-    {% if username == request.user.username %}
+    {% if user_page.username == request.user.username %}
     <form action="{% url 'edit_profile' %}">
         {% csrf_token %}
         <button type="submit">Edit Profile</button>

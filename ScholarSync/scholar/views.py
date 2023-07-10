@@ -390,7 +390,7 @@ def edit_profile(request):
                     user.user_profile.lname = edit_form.cleaned_data['lname']
                     user.user_profile.email = edit_form.cleaned_data['email']
                     user.user_profile.city = edit_form.cleaned_data['city']
-                    user.save()
+                    user.save()   
                     return HttpResponseRedirect(reverse('profile'))  
                 else:
                     return render(request, 'scholar/edit_profile.html', {
