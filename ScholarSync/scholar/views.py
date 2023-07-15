@@ -48,8 +48,11 @@ class MessageForm(forms.Form):
 #to add: The secret question verification
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        try:
+            username = request.POST['username']
+            password = request.POST['password']
+        except:
+            return HttpResponseRedirect(reverse('login')) 
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
