@@ -32,7 +32,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50, blank=False)
     content = models.CharField(max_length=2000, blank=False)
     likes = models.ManyToManyField(User, related_name='user_liked_posts', null=True)
-    favorite_of_users = models.ManyToManyField(User, related_name='favorite_posts')
+    favorite_of_users = models.ManyToManyField(User, related_name='favorite_posts') 
 
     def __str__(self):
         return f"{self.title} posted by {self.user} on {self.date}"
@@ -40,7 +40,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='post_comments', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='user_comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_comments', on_delete=models.CASCADE) 
     content = models.CharField(max_length=200, blank=False)
     date = models.DateTimeField(auto_now_add=True)
 
