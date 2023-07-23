@@ -1,12 +1,16 @@
 {% load static %}
 
+
+
+
+
 <!DOCTYPE html>
 
 <html lang="en">
     <head>
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{% static 'scholar/style.css' %}" rel="stylesheet">
+        <link href="{% static 'scholar/layout_style.css' %}" rel="stylesheet">
         {% block style %}{% endblock %}
     </head>
     <body>
@@ -20,6 +24,7 @@
             <a href="{% url 'favorite_posts' %}">Favorites</a>
             <a href="{% url 'my_posts' %}">My Posts</a>
             <a href="{% url 'conversations' %}">Notifications</a>
+            <a href="{% url 'about' %}">About</a>
         </div>
         {% block body %} 
         {% endblock %}

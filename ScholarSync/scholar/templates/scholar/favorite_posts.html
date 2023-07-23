@@ -1,27 +1,33 @@
-{% extends "scholar/layout.html" %} 
+
+{% extends "scholar/layout.html" %}
+{% load static %} 
+
+{% block title %} Favorites {% endblock %}
 
 
-{% block title %} Favorites {% endblock %} 
+{% block style %}
+<link href="{% static 'scholar/favorite_post_style.css' %}" rel="stylesheet">
+{% endblock %}
 
-{% block body %} 
-<h1>Favorite posts: </h1>
+{% block body %}
+  <div class="container">
+    <h1>Favorite posts:</h1>
 
-<ul>
-    {% for post in posts %}
-    <li>
-        <a href="{% url 'post' post.id %}">
-            <p>
-                <b>{{post.title}}</b>
-            </p>
-            {% if post.image != '' %}
-            <img src='{{post.image}}' alt="Loading Image">
-            {% endif %}
-        </a>
-    </li>
-    {% empty %}
-    <i>No Favorite posts Yet</i>
-    {% endfor %}
-</ul>
-
-
-{% endblock %} 
+    <ul class="post-list">
+      {% for post in posts %}
+        <li class="post-item">
+          <a href="{% url 'post' post.id %}">
+            <div class="post-content">
+              <h3 class="post-title">{{ post.title }}</h3>
+              {% if post.image %}
+                <img src="{{ post.image }}" alt="Post Image">
+              {% endif %}
+            </div>
+          </a>
+        </li>
+      {% empty %}
+        <li class="empty-message">No Favorite posts Yet</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

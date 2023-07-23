@@ -1,6 +1,12 @@
 {% extends 'scholar/layout.html' %}
+{% load static %} 
 
 {% block title %}Friends{% endblock %}
+
+
+{% block style %}
+<link href="{% static 'scholar/view_friends_style.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
 <h1>Friends:</h1>
@@ -16,11 +22,14 @@
         {% endif %}
     {% endfor %}
 </ul>
+<br>
 <ul>
+    <form class="friends">
     {% for friend in friends %}
     <li><a href="{% url 'friend_profile' friend.id %}">{{friend.username}}</a></li>
     {% empty %}
     Sorry you dont have friends :/
     {% endfor %}
+    </form>
 </ul>
 {% endblock %}

@@ -1,29 +1,48 @@
 {% extends "scholar/layout.html" %} 
+{% load static %} 
 
 {% block title %} Search {% endblock %} 
 
+{% block style %}
+<link href="{% static 'scholar/search_post_style.css' %}" rel="stylesheet">
+{% endblock %}
 {% block body %} 
-<h1>Search Posts:</h1>
 
-<form action="{% url 'search_post' %}" method="post">
-    {% csrf_token %}
-    {{ search_form }}
-    <button type="submit">Search</button>
-</form>
-
-<ul>
-    {% for post in search_result %}
-    <li>
-        <a href="{% url 'post' post.id %}">
-            <p>
-                <b>{{post.title}}</b>
-            </p>
-            {% if post.image != '' %}
-            <img src='{{post.image}}' alt="Loading Image">
-            {% endif %}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
+  <!-- Hero section -->
+  <section class="Main">
+     <div class="content max-width">
+      <h2>The right research platform, make your passion a reality</h2>
+      <br><br>
+      <div class="search-form">
+  
+         <form action="{% url 'search_post' %}" method="post"> 
+            {% csrf_token %}
+            {{ search_form }}
+            <button class="search-btn" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="popular-tags">
+        <h4>Frequently searched:</h4>
+        <ul class="link">
+          <li><a href="#">AI</a></li>
+          <li><a href="#">Space Exploration</a></li>
+          <li><a href="#">Climate Change</a></li>
+        </ul>
+      </div>
+      <ul>
+        {% for post in search_result %}
+        <li>
+            <a href="{% url 'post' post.id %}">
+                <p>
+                    <b>{{post.title}}</b>
+                </p>
+                {% if post.image != '' %}
+                <img src='{{post.image}}' alt="Loading Image">
+                {% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+     </div>
+  </section>
 {% endblock %}

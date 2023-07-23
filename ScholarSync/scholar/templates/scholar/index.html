@@ -1,34 +1,47 @@
 {% extends "scholar/layout.html" %} 
 {% load custom_filters %}
+{% load static %} 
 
 {% block title %} Hello! {% endblock %}
 
+
+{% block style %}
+<link href="{% static 'scholar/index_style.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
 {% block body %} 
-Hello Django! This is the index page and you are loged in as: {{ user.username }}
 
-<ul>
-    {% for post in posts %}
-        {% if request.user|is_friend_post:post.user %}
-        <li>
-            <form action="{% url 'post' post.id %}">
-                <button>
-                    <h1>{{post.title}}</h1>
-                    {% if post.image != '' %}
-                    <img src={{post.image}} alt="Loading image">
-                    {% endif %}
-                    <div>{{post.description}}</div>
-                    <div>{{post.date}}</div>
-                </button>
-            </form>
-        </li>
-        {% endif %}
 
-    {% empty %}
-    <h1>No Posts Currently available!</h1>
+<!-- Hero section -->
+<section class="Main">
+  <ul>
+ {% for post in posts %}
+ {% if request.user|is_friend_post:post.user %}
 
-    {% endfor %}
+<li>
+  <form action="{% url 'post' post.id %}">
+      <button>
+          <h1>{{post.title}}</h1>
+          {% if post.image != '' %}
+          <img src={{post.image}} alt="Loading image">
+          {% endif %}
+          <div>{{post.description}}</div>
+          <div>{{post.date}}</div>
+      </button>
+  </form>
+</li>
+
+ 
+ {% endif %}
+ 
+ {% empty %}
+ <h1>No Posts Currently available!</h1>
+ 
+ {% endfor %}
 </ul>
+</section>
 
-
-{% endblock %} 
+{% endblock %}
 

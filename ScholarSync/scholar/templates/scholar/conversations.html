@@ -1,6 +1,11 @@
 {% extends 'scholar/layout.html' %}
+{% load static %} 
 
 {% block title %}Notifications{% endblock %}
+
+{% block style %}
+<link href="{% static 'scholar/conversation_style.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
 <h1>Conversations: </h1>

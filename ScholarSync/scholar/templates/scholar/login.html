@@ -1,21 +1,28 @@
 {% extends 'scholar/layout.html' %} 
+{% load static %} 
 
 {% block title %} Login {% endblock %}
 
+
+{% block style %}
+<link href="{% static 'scholar/login.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block body %} 
-<h1>LogIn:</h1>
-<form action="{% url 'login' %}" method="post">
+<div class="login">
+    <img src="{% static 'scholar/loginavatar.jpg' %}" alt="Login Avatar">
+    <h3>Welcome Back!</h3>
+    <h2>ScholarSync</h2>
+    <form class="login-form" action="{% url 'login' %}" method="post">
     {% csrf_token %} 
-    <input name="username" placeholder="Username:" autofocus autocomplete="off" type="text">
-    <input name="password"type="password" placeholder="Password" autocomplete="off">
+    <input type="username" name="username" placeholder="Username" autofocus autocomplete="off" type="text">
+    <input name="password" type="password" placeholder="Password" autocomplete="off">
     <button type="submit">Log In</button>
     <b>{{ erorr_message }}</b>
-</form>
+    </form>
 <div>
-    Not have an account yet?
-    <a href="{% url 'create_acc' %}">Register Now</a>
+    <!-- ADDED -->
+    <a href="{% url 'create_acc' %}">Don't have an account? Sign Up</h3> 
 </div>
-<div>
-    Forgot your account? well....
 </div>
 {% endblock %} 

@@ -1,7 +1,12 @@
 {% extends 'scholar/layout.html' %} 
+{% load static %} 
 
 {% block title %} view Post {% endblock %} 
 
+
+{% block style %}
+<link href="{% static 'scholar/view_post_style.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %} 
 

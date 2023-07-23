@@ -1,8 +1,11 @@
 {% extends 'scholar/layout.html' %} 
+{% load static %} 
 
 {% block title %} private messages {% endblock %} 
 
-
+{% block style %}
+<link href="{% static 'scholar/private_message_style.css' %}" rel="stylesheet">
+{% endblock %}
 {% block body %} 
 
 <h1>private messages with {{receiver.username}}</h1>

@@ -1,12 +1,32 @@
-{% extends 'scholar/layout.html' %} 
+ {% extends 'scholar/layout.html' %} 
+ {% load static %} 
  
-{% block title %} create acc {% endblock %}
+ {% block title %} create acc {% endblock %} 
+
+
+{% block style %}
+<link href="{% static 'scholar/create_acc.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block body %} 
-<h1>Create your account:</h1>
-{{ err_message }}
-<form action="{% url 'create_acc' %}", method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-{% endblock %} 
+    
+    <div class="create_acc_form">
+        <div class="logo">
+            <!-- <img src="{% static 'scholar/loginavatar.jpg' %}" alt="Login Avatar"> -->
+        </div>
+        <h2>Create your account</h2>
+        {{ err_message }}
+        <form class="form1", action="{% url 'create_acc' %}", method="post">
+            {% csrf_token %}
+            {{ form }}
+            <!-- <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password"> -->
+            <button type="submit">SIGN IN</button>
+        </form>
+        <footer>
+            Existing users, sign in
+            <a href="{% url 'login' %}">Here</a>
+        </footer>
+    </div>
+    {% endblock %}  

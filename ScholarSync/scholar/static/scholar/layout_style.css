@@ -1,0 +1,30 @@
+
+  
+  /* Apply styles to the links */
+  div a {
+    color: #204969;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 10px;
+  }
+  
+  /* Hover effect on the links */
+  div a:hover {
+    background-color: #08FFC8;
+    color: #FFF7F7;
+  }
+  
+  /* Apply styles to the links on focus (for accessibility) */
+  div a:focus {
+    outline: none;
+    background-color: #08FFC8;
+    color: #FFF7F7;
+  }
+  
+  /* Apply styles to the links on active (when clicked) */
+  div a:active {
+    background-color: #08FFC8;
+    color: #FFF7F7;
+  }
+  

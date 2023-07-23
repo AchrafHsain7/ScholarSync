@@ -1,11 +1,27 @@
 {% extends 'scholar/layout.html' %} 
+{% load static %} 
 
 {% block title %} about {% endblock %} 
 
+{% block style %}
+<link href="{% static 'scholar/about_page.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %} 
 
-<h1>about page</h1>
+<section class="about-us">
+    <div class="about">
+      <img src="https://t3.ftcdn.net/jpg/01/42/64/06/360_F_142640657_vsgyihKgBA8Z9UCnZo3FyjCqZ3HPkeCV.jpg"  alt="Logo" class="pic">
+      <div class="text">
+        <h3>About Us</h3>
+        <h5>Research Website: <span>ScholarSync</span></h5>
+          <p>Scholar-sync is a web application designed to provide a collaborative space for research and surveys. It makes it easier for researchers to connect with others in their field, conduct surveys, and receive real-time results. Users can communicate with fellow researchers through direct messaging or posting, engage in discussions, seek guidance, and contribute to ongoing research projects.Our app offers a unique educational experience by creating a vibrant community, allowing users to witness and actively contribute to the research projects of others. Additionally, they can acquire help and advice to enhance their own research projects.</p>
+        <div class="data">
+        <a href="{% url 'index' %}" class="forward_homepage">Home Page</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
 {% endblock %}

@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.contrib.auth.hashers import check_password
 
 
+
 from .models import *
 
 
@@ -80,6 +81,7 @@ def index(request):
         })   
     else:
         return HttpResponseRedirect(reverse('login'))
+    
     
 
 

@@ -1,23 +1,30 @@
 {% extends 'scholar/layout.html' %}
 {% load static %}
 
+
 {% block title %}Edit Profile{% endblock %}
 
-{% block style %} 
-{% edblock %}
+
+{% block style %}
+<link href="{% static 'scholar/edit_profile_style.css' %}" rel="stylesheet">
+{% endblock %}
+
 
 
 {% block body %}
-<h1>Edit Profile:</h1>
 
-<h2>
-    {{ err_message }}
-</h2>
-
-<form action="{% url 'edit_profile' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Confirm changes</button>
-</form>
+<header>Edit Profile</header>
+        <h2>
+            {{ err_message }}
+        </h2>
+        
+          <form action="{% url 'edit_profile' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <br>
+            <br><br>
+            <button type="submit">Confirm changes</button>
+          </form>
+        
 
 {% endblock %}

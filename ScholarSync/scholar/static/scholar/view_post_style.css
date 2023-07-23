@@ -1,0 +1,127 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Style for the <h1> element */
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Style for the <img> element */
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the <p> element */
+  p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  /* Style for the <small> element */
+  small {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Style for the "Likes" and "Published" sections */
+  div {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  div b,
+  div i {
+    font-weight: bold;
+  }
+  
+  div i {
+    font-style: italic;
+    color: #777;
+  }
+  
+  /* Style for the "Posted by" section */
+  p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the like and add to favorites buttons */
+  button {
+    padding: 8px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  /* Hover effect for buttons */
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style for the comment form and comments list */
+  form,
+  ul {
+    margin-top: 20px;
+  }
+  
+  /* Style for the comment section heading */
+  ul h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the comment content and date */
+  ul div {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for the "No comments" message */
+  i {
+    font-style: italic;
+    color: #777;
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 24px;
+    }
+    img {
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+    }
+    div,
+    p {
+      font-size: 14px;
+    }
+    ul h1 {
+      font-size: 16px;
+    }
+    ul div {
+      font-size: 14px;
+    }
+  }
+  

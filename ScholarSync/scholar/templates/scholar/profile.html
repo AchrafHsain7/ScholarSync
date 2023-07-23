@@ -1,36 +1,63 @@
 {% extends 'scholar/layout.html' %} 
 {% load custom_filters %}
+{% load static %} 
+
 {% block title %} Profile {% endblock %} 
+
+{% block style %}
+<link href="{% static 'scholar/profile_style.css' %}" rel="stylesheet">
+{% endblock %}
 
 
 {% block body %} 
 
-    <h1>Profile page</h1>
-    <img src="{{user_page.user_profile.profile_img}}" alt="Loading Image" width="100", height="100">  
-    <p>Username: {{user_page.username}}</p>
-    <p>First Name: {{user_page.user_profile.fname}}</p>
-    <p>Last Name: {{user_page.user_profile.lname}}</p>
-    <p>City: {{user_page.user_profile.city}}</p>
-
-    {% if user_page.username == request.user.username %}
-    <form action="{% url 'edit_profile' %}">
-        {% csrf_token %}
-        <button type="submit">Edit Profile</button>
-    </form>
-    {% else %}
-        {% if request.user|is_friend_post:user_page %}
-        <form action="{% url 'remove_friend' user_page.id %}" method="post">
-            {% csrf_token %}
-            <button>Unfollow</button>
-        </form>
-        {% else %}
-        <form action="{% url 'add_friend' user_page.id %}" method="post">
-            {% csrf_token %}
-            <button>Follow</button>
-        </form>
-        {% endif %}
-        <a href="{% url 'private_messages' user_page.id %}">Private Chat</a>
-
-    {% endif %}
-
+    <section class="main">
+        <div class="profile-card">
+          <div class="image">
+            <img src="{{user_page.user_profile.profile_img}}" alt="Loading Image" class="profile-pic">  
+          </div>
+          <div class="data">
+            <h2>Username: {{user_page.username}}</h2>
+            <h2>First Name: {{user_page.user_profile.fname}}</h2>
+            <h2>Last Name: {{user_page.user_profile.lname}}</h2>
+            <h2>City: {{user_page.user_profile.city}}</h2>
+            <span>data scientist</span>
+          </div>
+          <div class="row">
+            <div class="info">
+              <h3>Following</h3>
+              <span>120</span>
+            </div>
+            <div class="info">
+              <h3>Followers</h3>
+              <span>5000</span>
+            </div>
+            <div class="info">
+              <h3>Posts</h3>
+              <span>209</span>
+            </div>
+          </div>
+          <!-- <div class="buttons"> -->
+            {% if user_page.username == request.user.username %}
+            <form action="{% url 'edit_profile' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">Edit Profile</button>
+            </form>
+            {% else %}
+            {% if request.user|is_friend_post:user_page %}
+            <form action="{% url 'remove_friend' user_page.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn">Unfollow</button>
+            </form>
+            {% else %}
+            <form action="{% url 'add_friend' user_page.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn">Follow</button>
+            </form>
+            {% endif %}
+            <a href="{% url 'private_messages' user_page.id %}" class="btn">Private Chat</a>
+            {% endif %}
+          <!-- </div> -->
+        </div>
+      </section>
 {% endblock %}
